@@ -25,14 +25,14 @@ object module extends App {
       } else if (!node.rightTree.isDefined) {
         node.rightTree = Some(Node(Some(value)))
         println("node" + node.value + "says : " + node.rightTree.get.value + "is my child")
-      } else if (node.leftTree.get.isFull)
-        insert(value, node.rightTree.get)
-      else
+      } else if (node.leftTree.get.isFull && node.rightTree.get.isFull)
         insert(value, node.leftTree.get)
+      else if (node.leftTree.get.isFull)
+        insert(value, node.rightTree.get) else insert(value, node.leftTree.get)
     }
   }
 
-  val data = Array(2, 3, 5, 6, 7, 8)
+  val data = Array(2, 3, 4, 5, 6, 7, 8, 9)
 
   val tree = new BinaryTree(Some(1))
   data.foreach { i => tree.insert(i) }
