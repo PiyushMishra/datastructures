@@ -17,6 +17,12 @@ object module extends App {
 
     val rootNode = Node(rootNodeValue)
 
+    def height = calculateHeight(Some(rootNode), 0)
+
+    def balanced = isbalanced(Some(rootNode))
+
+    def nodes = calculateNumberOfNodes(Some(rootNode), 0)
+
     override def toString = rootNode.toString
 
     def insert(value: Int, node: Node = rootNode): Unit = if (node.value.isDefined) {
@@ -31,30 +37,29 @@ object module extends App {
       else if (calculateNumberOfNodes(node.leftTree, 0) < Math.pow(2, calculateHeight(node.leftTree, 0)) - 1)
         insert(value, node.leftTree.get) else insert(value, node.rightTree.get)
     }
-  }
-
-  def isbalanced(tree: Option[Node]) = {
-    if (!tree.isDefined) false
-    else {
-      val a = calculateNumberOfNodes(tree, 0) == Math.pow(2, calculateHeight(tree, 0)) - 1
-      a
+    def isbalanced(tree: Option[Node]) = {
+      if (!tree.isDefined) false
+      else {
+        calculateNumberOfNodes(tree, 0) == Math.pow(2, calculateHeight(tree, 0)) - 1
+      }
     }
-  }
 
-  def calculateNumberOfNodes(tree: Option[Node], acc: Int): Int = {
-    if (!tree.isDefined) acc else
-      acc + 1 + calculateNumberOfNodes(tree.get.leftTree, 0) + calculateNumberOfNodes(tree.get.rightTree, 0)
-  }
+    def calculateNumberOfNodes(tree: Option[Node], acc: Int): Int = {
+      if (!tree.isDefined) acc else
+        acc + 1 + calculateNumberOfNodes(tree.get.leftTree, 0) + calculateNumberOfNodes(tree.get.rightTree, 0)
+    }
 
-  def calculateHeight(tree: Option[Node], acc: Int): Int = {
-    if (!tree.isDefined) acc
-    else if (tree.get.isLeaf) acc + 1
-    else List(calculateHeight(tree.get.leftTree, acc + 1), calculateHeight(tree.get.rightTree, acc + 1)).max
+    def calculateHeight(tree: Option[Node], acc: Int): Int = {
+      if (!tree.isDefined) acc
+      else if (tree.get.isLeaf) acc + 1
+      else List(calculateHeight(tree.get.leftTree, acc + 1), calculateHeight(tree.get.rightTree, acc + 1)).max
+    }
+
   }
 
   val tree = new BinaryTree(Some(1))
   data.foreach { i => tree.insert(i) }
-  println(calculateHeight(Some(tree.rootNode), 0))
-  println(calculateNumberOfNodes(Some(tree.rootNode), 0))
-  println(isbalanced(Some(tree.rootNode)))
+  println(tree.height)
+  println(tree.nodes)
+  println(tree.balanced)
 }
