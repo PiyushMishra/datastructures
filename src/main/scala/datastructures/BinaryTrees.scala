@@ -2,7 +2,8 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2, 5, 6, -1, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19)
+  val data = Array(2, 5, 6, -1, 8, 11, 12, 13, 14, 15, 16, 17,
+    18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -25,9 +26,9 @@ object module extends App {
       } else if (!node.rightTree.isDefined) {
         node.rightTree = Some(Node(Some(value)))
         println("node" + node.value + "says : " + node.rightTree.get.value + "is right my child")
-      } else if (isbalanced(node.leftTree) && calculateNumberOfNodes(node.leftTree , 0) == calculateNumberOfNodes(node.rightTree , 0))
+      } else if (isbalanced(node.leftTree) && calculateNumberOfNodes(node.leftTree, 0) == calculateNumberOfNodes(node.rightTree, 0))
         insert(value, node.leftTree.get)
-      else if (calculateNumberOfNodes(node.leftTree , 0) < Math.pow(2, calculateHeight(node.leftTree, 0)) - 1)
+      else if (calculateNumberOfNodes(node.leftTree, 0) < Math.pow(2, calculateHeight(node.leftTree, 0)) - 1)
         insert(value, node.leftTree.get) else insert(value, node.rightTree.get)
     }
   }
