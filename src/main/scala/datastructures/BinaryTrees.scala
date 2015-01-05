@@ -32,7 +32,7 @@ object module extends App {
       } else if (!node.rightTree.isDefined) {
         node.rightTree = Some(Node(Some(value)))
         println("node" + node.value + "says : " + node.rightTree.get.value + "is right my child")
-      } else if (isbalanced(node.leftTree) && calculateNumberOfNodes(node.leftTree, 0) == calculateNumberOfNodes(node.rightTree, 0))
+      } else if (calculateNumberOfNodes(node.leftTree, 0) == calculateNumberOfNodes(node.rightTree, 0))
         insert(value, node.leftTree.get)
       else if (calculateNumberOfNodes(node.leftTree, 0) < Math.pow(2, calculateHeight(node.leftTree, 0)) - 1)
         insert(value, node.leftTree.get) else insert(value, node.rightTree.get)
