@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2, 5, 6, 8, 11, 12,10, 13, 14, 15, 16, 17, 18, 19)
+  val data = Array(2, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -101,7 +101,8 @@ object module extends App {
     }
 
     def lastLeafOfTree(node: Option[Node] = Some(rootNode)): Option[Node] = {
-      if (node.isDefined) {
+      if (calculateNumberOfNodes(node, 0) == 1) node
+      else if (node.isDefined) {
         if (node.get.isLeaf) node
         else if (calculateHeight(node.get.leftTree, 0) > calculateHeight(node.get.leftTree, 0))
           lastLeafOfTree(node.get.leftTree) else lastLeafOfTree(node.get.rightTree)
