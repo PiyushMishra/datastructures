@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2, 5, 6, 8, 11, 10,12, 13, 14, 15, 16, 17, 18, 19)
+  val data = Array(2, 5, 6, 8, 11, 12,10, 13, 14, 15, 16, 17, 18, 19)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -10,7 +10,9 @@ object module extends App {
     def isInner = this.leftTree.isDefined || this.rightTree.isDefined
     def isLeaf = !this.leftTree.isDefined && !this.rightTree.isDefined
 
-    override def toString = if (isInner) {
+    override def toString = if (isOnlyLeft) {
+      "node" + this.value.get + "says : " + this.leftTree.get.value + "is my left child\n"
+    } else if (isOnlyRight) ("node" + this.value.get + "says : " + this.rightTree.get.value + "is right my child\n") else if (isInner) {
       "node" + this.value.get + "says : " + this.leftTree.get.value + "is my left child\n" +
         ("node" + this.value.get + "says : " + this.rightTree.get.value + "is right my child\n")
     } else {
@@ -53,7 +55,7 @@ object module extends App {
       else insert(value, node.rightTree.get)
     }
 
-     def max_hepify(node: Node = rootNode) {
+    def max_hepify(node: Node = rootNode) {
       if (node.isInner) {
         if (node.leftTree.isDefined && node.rightTree.isDefined) {
           if (node.leftTree.get.value.get > node.value.get && node.leftTree.get.value.get > node.rightTree.get.value.get)
@@ -75,7 +77,6 @@ object module extends App {
       }
     }
 
-
     def buildMaxHeap(node: Option[Node] = Some(rootNode)) {
       if (node.isDefined) {
         if (!node.get.isLeaf) {
@@ -93,7 +94,7 @@ object module extends App {
         buildMaxHeap(rootNode)
         val rootNodeValue = rootNode.get.value.get
         var lastLeaf = lastLeafOfTree()
-        if(lastLeaf.isDefined)rootNode.get.value = lastLeaf.get.value
+        if (lastLeaf.isDefined) rootNode.get.value = lastLeaf.get.value
         lastLeaf = None
         rootNodeValue
       } else rootNode
