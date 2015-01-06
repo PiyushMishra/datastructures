@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2, 5, 6, 56, 8, 11, 12, 13, 14, 15, 16, 17,77, 78, 79,80)
+  val data = Array(7, 26, 25, 19, 17, 1, 90, 3, 36)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -69,7 +69,7 @@ object module extends App {
           swap(node, node.rightTree.get)
         }
         max_hepify(node.leftTree.get)
-        max_hepify(node.rightTree.get)
+        if (node.rightTree.isDefined) max_hepify(node.rightTree.get)
       }
     }
 
