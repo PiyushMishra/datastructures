@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2, 5, 6,-1, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19)
+  val data = Array(2, 5, 6,1, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -81,7 +81,7 @@ object module extends App {
       }
     }
 
-    def sort = (for (i <- 1 to nodes - 1) yield swapRootAndLastLeaf(Some(rootNode))).mkString(",")
+    def sort = (for (i <- 1 to nodes) yield swapRootAndLastLeaf(Some(rootNode))).mkString(",")
 
     def swapRootAndLastLeaf(rootNode: Option[Node]) = {
       if (rootNode.isDefined) {
