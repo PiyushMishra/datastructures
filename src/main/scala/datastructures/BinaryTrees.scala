@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19)
+  val data = Array(2, 5, 6, -1,8, 11, 12, 13, 14, 15, 16, 17)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -68,12 +68,8 @@ object module extends App {
         } else if (node.rightTree.isDefined && node.rightTree.get.value.get > node.value.get) {
           swap(node, node.rightTree.get)
         }
-        if (node.leftTree.isDefined)
-          max_hepify(node.leftTree.get)
-        else if (node.rightTree.isDefined) max_hepify(node.rightTree.get) else {
           max_hepify(node.leftTree.get)
           max_hepify(node.rightTree.get)
-        }
       }
     }
 
@@ -87,17 +83,18 @@ object module extends App {
       }
     }
 
-    def sort = (for (i <- 1 to nodes) yield swapRootAndLastLeaf(Some(rootNode))).mkString(",")
+    def sort = (for (i <- 1 to nodes) yield swapRootAndLastLeaf(Some(rootNode)).map(_.value.get)).mkString(",")
 
     def swapRootAndLastLeaf(rootNode: Option[Node]) = {
       if (rootNode.isDefined) {
         buildMaxHeap(rootNode)
-        val rootNodeValue = rootNode.get.value.get
         var lastLeaf = lastLeafOfTree()
-        if (lastLeaf.isDefined) rootNode.get.value = lastLeaf.get.value
-        lastLeaf = None
-        rootNodeValue
+        if (lastLeaf.isDefined) {
+          rootNode.get.value = lastLeaf.get.value
+          lastLeaf = None
+        } else rootNode
       } else rootNode
+      rootNode
     }
 
     def lastLeafOfTree(node: Option[Node] = Some(rootNode)): Option[Node] = {
@@ -141,6 +138,7 @@ object module extends App {
   println(tree.height)
   println(tree.balanced)
   println(tree.nodes)
-  println(tree.sort)
+  println(tree.buildMaxHeap(Some(tree.rootNode)))
   println(tree.traverse(Some(tree.rootNode)))
+  println(tree.sort)
 }
