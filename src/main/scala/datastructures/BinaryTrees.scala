@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2, 5, 6, -1,8, 11, 12, 13, 14, 15, 16, 17)
+  val data = Array(2, 5, 6,56, 8, 11, 12, 13, 14, 15, 16, 17)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -68,33 +68,36 @@ object module extends App {
         } else if (node.rightTree.isDefined && node.rightTree.get.value.get > node.value.get) {
           swap(node, node.rightTree.get)
         }
-          max_hepify(node.leftTree.get)
-          max_hepify(node.rightTree.get)
+        max_hepify(node.leftTree.get)
+        max_hepify(node.rightTree.get)
       }
     }
 
     def buildMaxHeap(node: Option[Node] = Some(rootNode)) {
       if (node.isDefined) {
+        println("building max heap")
         if (!node.get.isLeaf) {
-          buildMaxHeap(node.get.leftTree)
-          buildMaxHeap(node.get.rightTree)
           max_hepify(node.get)
         }
       }
     }
 
-    def sort = (for (i <- 1 to nodes) yield swapRootAndLastLeaf(Some(rootNode)).map(_.value.get)).mkString(",")
+    def sort = { 
+       buildMaxHeap(Some(rootNode))
+      (for (i <- 1 to nodes) yield swapRootAndLastLeafAndExtractMax(rootNode)).mkString(",") }
 
-    def swapRootAndLastLeaf(rootNode: Option[Node]) = {
-      if (rootNode.isDefined) {
-        buildMaxHeap(rootNode)
-        var lastLeaf = lastLeafOfTree()
+    def swapRootAndLastLeafAndExtractMax(node: Node) = {
+      buildMaxHeap(Some(node))
+      if (node.isLeaf) node.value.get else {
+        var lastLeaf = lastLeafOfTree(Some(node))
         if (lastLeaf.isDefined) {
-          rootNode.get.value = lastLeaf.get.value
+          val value = node.value.get
+          println("................" + lastLeaf)
+          rootNode.value = lastLeaf.get.value
           lastLeaf = None
-        } else rootNode
-      } else rootNode
-      rootNode
+          value
+        } else node.value.get
+      }
     }
 
     def lastLeafOfTree(node: Option[Node] = Some(rootNode)): Option[Node] = {
@@ -137,8 +140,7 @@ object module extends App {
   data.foreach { i => tree.insert(i) }
   println(tree.height)
   println(tree.balanced)
-  println(tree.nodes)
-  println(tree.buildMaxHeap(Some(tree.rootNode)))
-  println(tree.traverse(Some(tree.rootNode)))
   println(tree.sort)
+  println(tree.traverse(Some(tree.rootNode)))
+  println(tree.nodes)
 }
