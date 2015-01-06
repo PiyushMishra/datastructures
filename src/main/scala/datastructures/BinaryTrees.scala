@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2, 5, 6, -1, 8, 11, 12, 13, 14, 15, 16, 17,18,19)
+  val data = Array(2, 5, 6, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -81,11 +81,32 @@ object module extends App {
       }
     }
 
+    def sort = (for (i <- 1 to nodes - 1) yield swapRootAndLastLeaf(Some(rootNode))).mkString(",")
+
+    def swapRootAndLastLeaf(rootNode: Option[Node]) = {
+      if (rootNode.isDefined) {
+        buildMaxHeap(rootNode)
+        val rootNodeValue = rootNode.get.value.get
+        var lastLeaf = lastLeafOfTree()
+        rootNode.get.value = lastLeaf.get.value
+        lastLeaf = None
+        rootNodeValue
+      } else rootNode
+    }
+
+    def lastLeafOfTree(node: Option[Node] = Some(rootNode)): Option[Node] = {
+      if (node.isDefined) {
+        if (node.get.isLeaf) node
+        else if (calculateHeight(node.get.leftTree, 0) > calculateHeight(node.get.leftTree, 0))
+          lastLeafOfTree(node.get.leftTree) else lastLeafOfTree(node.get.rightTree)
+      } else node
+    }
+
     def swap(node1: Node, node2: Node): Unit = {
       val temp = node1.value
       node1.value = node2.value
       node2.value = temp
-      println("swapping", node1.value, node2.value)
+      //println("swapping", node1.value, node2.value)
     }
 
     def isbalanced(tree: Option[Node]) = {
@@ -111,8 +132,8 @@ object module extends App {
   val tree = new BinaryTree(Some(1))
   data.foreach { i => tree.insert(i) }
   println(tree.height)
-  println(tree.buildMaxHeap(Some(tree.rootNode)))
+  println(tree.balanced)
+  println(tree.nodes)
+  println(tree.sort)
   println(tree.traverse(Some(tree.rootNode)))
-    println(tree.balanced)
-    println(tree.nodes)
 }
