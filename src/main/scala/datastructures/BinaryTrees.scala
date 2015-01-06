@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2, 5, 6,56, 8, 11, 12, 13, 14, 15, 16, 17)
+  val data = Array(2, 5, 6, 56, 8, 11, 12, 13, 14, 15, 16, 17,77, 78)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -77,24 +77,29 @@ object module extends App {
       if (node.isDefined) {
         println("building max heap")
         if (!node.get.isLeaf) {
+          buildMaxHeap(node.get.leftTree)
+          buildMaxHeap(node.get.rightTree)
           max_hepify(node.get)
         }
       }
     }
 
-    def sort = { 
-       buildMaxHeap(Some(rootNode))
-      (for (i <- 1 to nodes) yield swapRootAndLastLeafAndExtractMax(rootNode)).mkString(",") }
+    def sort = {
+      buildMaxHeap(Some(rootNode))
+      (for (i <- 1 to nodes) yield swapRootAndLastLeafAndExtractMax(rootNode)).mkString(",")
+    }
 
     def swapRootAndLastLeafAndExtractMax(node: Node) = {
       buildMaxHeap(Some(node))
       if (node.isLeaf) node.value.get else {
+        println("root is " + node.value)
         var lastLeaf = lastLeafOfTree(Some(node))
         if (lastLeaf.isDefined) {
           val value = node.value.get
           println("................" + lastLeaf)
           rootNode.value = lastLeaf.get.value
           lastLeaf = None
+          println("after root is " + node.value)
           value
         } else node.value.get
       }
@@ -110,6 +115,13 @@ object module extends App {
     }
 
     def swap(node1: Node, node2: Node): Unit = {
+      val temp = node1.value
+      node1.value = node2.value
+      node2.value = temp
+      //println("swapping", node1.value, node2.value)
+    }
+
+    def swap2(node1: Node, node2: Node): Unit = {
       val temp = node1.value
       node1.value = node2.value
       node2.value = temp
@@ -140,7 +152,8 @@ object module extends App {
   data.foreach { i => tree.insert(i) }
   println(tree.height)
   println(tree.balanced)
-  println(tree.sort)
+//  tree.buildMaxHeap(Some(tree.rootNode))
   println(tree.traverse(Some(tree.rootNode)))
+  println(tree.sort)
   println(tree.nodes)
 }
