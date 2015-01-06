@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2, 5, 6, 56, 8, 11, 12, 13, 14, 15, 16, 17,77, 78)
+  val data = Array(2, 5, 6, 56, 8, 11, 12, 13, 14, 15, 16, 17,77, 78, 79,80)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -68,14 +68,11 @@ object module extends App {
         } else if (node.rightTree.isDefined && node.rightTree.get.value.get > node.value.get) {
           swap(node, node.rightTree.get)
         }
-        max_hepify(node.leftTree.get)
-        max_hepify(node.rightTree.get)
       }
     }
 
     def buildMaxHeap(node: Option[Node] = Some(rootNode)) {
       if (node.isDefined) {
-        println("building max heap")
         if (!node.get.isLeaf) {
           buildMaxHeap(node.get.leftTree)
           buildMaxHeap(node.get.rightTree)
@@ -152,8 +149,9 @@ object module extends App {
   data.foreach { i => tree.insert(i) }
   println(tree.height)
   println(tree.balanced)
-//  tree.buildMaxHeap(Some(tree.rootNode))
+  tree.buildMaxHeap(Some(tree.rootNode))
   println(tree.traverse(Some(tree.rootNode)))
   println(tree.sort)
   println(tree.nodes)
+  println(tree.traverse(Some(tree.rootNode)))
 }
