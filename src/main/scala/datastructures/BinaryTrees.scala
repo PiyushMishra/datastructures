@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2, 5, 6,1, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19)
+  val data = Array(2, 5, 6, 8, 11, 10,12, 13, 14, 15, 16, 17, 18, 19)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -53,7 +53,7 @@ object module extends App {
       else insert(value, node.rightTree.get)
     }
 
-    def max_hepify(node: Node = rootNode) {
+     def max_hepify(node: Node = rootNode) {
       if (node.isInner) {
         if (node.leftTree.isDefined && node.rightTree.isDefined) {
           if (node.leftTree.get.value.get > node.value.get && node.leftTree.get.value.get > node.rightTree.get.value.get)
@@ -66,10 +66,15 @@ object module extends App {
         } else if (node.rightTree.isDefined && node.rightTree.get.value.get > node.value.get) {
           swap(node, node.rightTree.get)
         }
-        max_hepify(node.leftTree.get)
-        max_hepify(node.rightTree.get)
+        if (node.leftTree.isDefined)
+          max_hepify(node.leftTree.get)
+        else if (node.rightTree.isDefined) max_hepify(node.rightTree.get) else {
+          max_hepify(node.leftTree.get)
+          max_hepify(node.rightTree.get)
+        }
       }
     }
+
 
     def buildMaxHeap(node: Option[Node] = Some(rootNode)) {
       if (node.isDefined) {
@@ -88,7 +93,7 @@ object module extends App {
         buildMaxHeap(rootNode)
         val rootNodeValue = rootNode.get.value.get
         var lastLeaf = lastLeafOfTree()
-        rootNode.get.value = lastLeaf.get.value
+        if(lastLeaf.isDefined)rootNode.get.value = lastLeaf.get.value
         lastLeaf = None
         rootNodeValue
       } else rootNode
