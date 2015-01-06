@@ -68,6 +68,8 @@ object module extends App {
         } else if (node.rightTree.isDefined && node.rightTree.get.value.get > node.value.get) {
           swap(node, node.rightTree.get)
         }
+        max_hepify(node.leftTree.get)
+        max_hepify(node.rightTree.get)
       }
     }
 
