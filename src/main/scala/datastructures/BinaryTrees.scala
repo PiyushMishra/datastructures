@@ -95,7 +95,7 @@ object module extends App {
     def swapRootAndLastLeafAndExtractMax(node: Node) = {
       buildMaxHeap(Some(node))
       if (node.isLeaf) node.value.get else {
-        println("root is " + node.value)
+        println("root is " + node.value)	
         var lastLeaf = lastLeafOfTree(Some(node))
         if (lastLeaf.isDefined) {
           val value = node.value.get
@@ -155,9 +155,7 @@ object module extends App {
   data.foreach { i => tree.insert(i) }
   println(tree.height)
   println(tree.balanced)
-  tree.buildMaxHeap(Some(tree.rootNode))
+  println(tree.buildMaxHeap(Some(tree.rootNode)))
   println(tree.traverse(Some(tree.rootNode)))
   println(tree.sort)
-  println(tree.nodes)
-  println(tree.traverse(Some(tree.rootNode)))
 }
