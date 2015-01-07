@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(2,7,26,25,19,17,1,90,3,36)
+  val data = Array(-2147483648,0,784144144,2,7,26,25,-7894,19,17,1,90,3,36,-2,-10000,-7859,-50000)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -61,7 +61,7 @@ object module extends App {
         if (node.leftTree.isDefined && node.rightTree.isDefined) {
           if (node.leftTree.get.value.get > node.value.get && node.leftTree.get.value.get > node.rightTree.get.value.get)
             swap(node, node.leftTree.get)
-          else if (node.rightTree.get.value.get > node.value.get && node.leftTree.get.value.get < node.rightTree.get.value.get) {
+          else if (node.rightTree.get.value.get > node.value.get && node.leftTree.get.value.get <= node.rightTree.get.value.get) {
             swap(node, node.rightTree.get)
           }
         } else if (node.leftTree.isDefined && node.leftTree.get.value.get > node.value.get) {
@@ -96,14 +96,11 @@ object module extends App {
     def swapRootAndLastLeafAndExtractMax(node: Node) = {
       max_hepify((node))
       if (node.isLeaf) node.value.get else {
-        println("root is " + node.value)	
         var lastLeaf = lastLeafOfTree(Some(node))
         if (lastLeaf.isDefined) {
           val value = node.value.get
-          println("................" + lastLeaf)
           swap2(rootNode, lastLeaf.get)
-          lastLeaf.get.value = Some(0)
-          println("after root is " + node.value)
+          lastLeaf.get.value = Some(Int.MinValue)
           value
         } else node.value.get
       }
@@ -122,14 +119,12 @@ object module extends App {
       val temp = node1.value
       node1.value = node2.value
       node2.value = temp
-      //println("swapping", node1.value, node2.value)
     }
 
     def swap2(node1: Node, node2: Node): Unit = {
       val temp = node1.value
       node1.value = node2.value
       node2.value = None
-      //println("swapping", node1.value, node2.value)
     }
 
     def isbalanced(tree: Option[Node]) = {
@@ -154,8 +149,6 @@ object module extends App {
 
   val tree = new BinaryTree(Some(2))
   data.foreach { i => tree.insert(i) }
-  println(tree.height)
-  println(tree.balanced)
-  println(tree.traverse(Some(tree.rootNode)))
   println(tree.sort)
+//  println(tree.traverse(Some(tree.rootNode)))
 }
