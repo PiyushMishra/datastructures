@@ -112,7 +112,7 @@ object module extends App {
       if (calculateNumberOfNodes(node, 0) == 1) node
       else if (node.isDefined) {
         if (node.get.isLeaf) node
-        else if (calculateHeight(node.get.leftTree, 0) > calculateHeight(node.get.leftTree, 0))
+        else if (calculateHeight(node.get.leftTree, 0) <= calculateHeight(node.get.leftTree, 0))
           lastLeafOfTree(node.get.leftTree) else lastLeafOfTree(node.get.rightTree)
       } else node
     }
