@@ -2,7 +2,7 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(45,67,8,34,-2,6,-4,89,756)
+  val data = Array(26,25,19,17,1,90,36)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
@@ -112,7 +112,7 @@ object module extends App {
       if (calculateNumberOfNodes(node, 0) == 1) node
       else if (node.isDefined) {
         if (node.get.isLeaf) node
-        else if (calculateHeight(node.get.leftTree, 0) <= calculateHeight(node.get.leftTree, 0))
+        else if (calculateHeight(node.get.leftTree, 0) > calculateHeight(node.get.rightTree, 0))
           lastLeafOfTree(node.get.leftTree) else lastLeafOfTree(node.get.rightTree)
       } else node
     }
@@ -151,11 +151,10 @@ object module extends App {
 
   }
 
-  val tree = new BinaryTree(Some(1))
+  val tree = new BinaryTree(Some(2))
   data.foreach { i => tree.insert(i) }
   println(tree.height)
   println(tree.balanced)
-  println(tree.buildMaxHeap(Some(tree.rootNode)))
   println(tree.traverse(Some(tree.rootNode)))
   println(tree.sort)
 }
