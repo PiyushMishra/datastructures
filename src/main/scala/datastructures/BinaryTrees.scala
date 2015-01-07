@@ -100,7 +100,6 @@ object module extends App {
         if (lastLeaf.isDefined) {
           val value = node.value.get
           swap2(rootNode, lastLeaf.get)
-          lastLeaf.get.value = Some(Int.MinValue)
           value
         } else node.value.get
       }
@@ -124,7 +123,7 @@ object module extends App {
     def swap2(node1: Node, node2: Node): Unit = {
       val temp = node1.value
       node1.value = node2.value
-      node2.value = None
+      node2.value = Some(Int.MinValue)
     }
 
     def isbalanced(tree: Option[Node]) = {
