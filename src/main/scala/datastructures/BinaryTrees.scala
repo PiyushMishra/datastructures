@@ -2,13 +2,14 @@ package datastructures
 
 object module extends App {
 
-  val data = Array(26,25,19,17,1,90,36)
+  val data = Array(2,7,26,25,19,17,1,90,3,36)
   case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
     def isOnlyRight = !this.leftTree.isDefined && this.rightTree.isDefined
     def isInner = this.leftTree.isDefined || this.rightTree.isDefined
     def isLeaf = !this.leftTree.isDefined && !this.rightTree.isDefined
+    def isDefined = this.value.isDefined
 
     override def toString = if (isOnlyLeft) {
       "node" + this.value.get + "says : " + this.leftTree.get.value + "is my left child\n"
@@ -93,15 +94,15 @@ object module extends App {
     }
 
     def swapRootAndLastLeafAndExtractMax(node: Node) = {
-      buildMaxHeap(Some(node))
+      max_hepify((node))
       if (node.isLeaf) node.value.get else {
         println("root is " + node.value)	
         var lastLeaf = lastLeafOfTree(Some(node))
         if (lastLeaf.isDefined) {
           val value = node.value.get
           println("................" + lastLeaf)
-          rootNode.value = lastLeaf.get.value
-          lastLeaf = None
+          swap2(rootNode, lastLeaf.get)
+          lastLeaf.get.value = Some(0)
           println("after root is " + node.value)
           value
         } else node.value.get
@@ -127,7 +128,7 @@ object module extends App {
     def swap2(node1: Node, node2: Node): Unit = {
       val temp = node1.value
       node1.value = node2.value
-      node2.value = temp
+      node2.value = None
       //println("swapping", node1.value, node2.value)
     }
 
