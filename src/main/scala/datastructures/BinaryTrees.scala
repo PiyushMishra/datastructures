@@ -121,7 +121,6 @@ object module extends App {
     }
 
     def swap2(node1: Node, node2: Node): Unit = {
-      val temp = node1.value
       node1.value = node2.value
       node2.value = Some(Int.MinValue)
     }
