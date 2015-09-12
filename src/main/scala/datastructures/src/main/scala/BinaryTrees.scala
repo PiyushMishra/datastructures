@@ -3,7 +3,8 @@ package datastructures
 object module extends App {
 
   val data = Array(-2147483648,0,784144144,2,7,26,25,-7894,19,17,1,90,3,36,-2,-10000,-7859,-50000)
-  case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None, var rightTree: Option[Node] = None) {
+  case class Node(var value: Option[Int] = None, var leftTree: Option[Node] = None,
+    var rightTree: Option[Node] = None) {
     def isFull = this.leftTree.isDefined && this.rightTree.isDefined
     def isOnlyLeft = this.leftTree.isDefined && !this.rightTree.isDefined
     def isOnlyRight = !this.leftTree.isDefined && this.rightTree.isDefined
@@ -13,7 +14,10 @@ object module extends App {
 
     override def toString = if (isOnlyLeft) {
       "node" + this.value.get + "says : " + this.leftTree.get.value + "is my left child\n"
-    } else if (isOnlyRight) ("node" + this.value.get + "says : " + this.rightTree.get.value + "is right my child\n") else if (isInner) {
+    }
+    else if (isOnlyRight) ("node" + this.value.get + "says : " +
+      this.rightTree.get.value + "is right my child\n")
+    else if (isInner) {
       "node" + this.value.get + "says : " + this.leftTree.get.value + "is my left child\n" +
         ("node" + this.value.get + "says : " + this.rightTree.get.value + "is right my child\n")
     } else {
@@ -49,7 +53,8 @@ object module extends App {
         node.leftTree = Some(Node(Some(value)))
       } else if (!node.rightTree.isDefined) {
         node.rightTree = Some(Node(Some(value)))
-      } else if (calculateNumberOfNodes(node.leftTree, 0) < Math.pow(2, calculateHeight(node.leftTree, 0)) - 1)
+      } else if (calculateNumberOfNodes(node.leftTree, 0) <
+        Math.pow(2, calculateHeight(node.leftTree, 0)) - 1)
         insert(value, node.leftTree.get)
       else if (calculateNumberOfNodes(node.leftTree, 0) == calculateNumberOfNodes(node.rightTree, 0))
         insert(value, node.leftTree.get)
